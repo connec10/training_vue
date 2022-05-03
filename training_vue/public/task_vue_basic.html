@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/task.css">
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <nav>
+        <span>
+          メニュー・注文
+        </span>
+        <span>
+          注文履歴
+        </span>
+      </nav>
+      <!-- menus -->
+      <div id="menus">
+        <h2>メニュー</h2>
+        <table>
+          <tr>
+            <th>商品名</th><th>定価(税抜)</th><th>注文数</th>
+          </tr>
+          <tr v-for="menu in menus" v-bind:key="menu.name">
+            <td>{{ menu.name }}</td>
+            <td>{{ menu.price }}円</td>
+            <td><input type="number" v-model="menu.quantity" min=0></td>
+          </tr>
+        </table>
+        <h2>注文リスト</h2>
+
+        <button>注文する</button>
+      </div>
+
+      <!-- baskets -->
+      <div id="baskets">
+        <h2>注文履歴</h2>
+
+        <h2>お支払金額</h2>
+
+      </div>
+    </div>
+
+  </body>
+</html>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    menus: [
+      {
+        name: 'ねぎトロ',
+        price: 120,
+        quantity: 0
+      },
+      {
+        name: 'サーモン',
+        price: 150,
+        quantity: 0
+      },
+      {
+        name: 'えんがわ',
+        price: 220,
+        quantity: 0
+      },
+      {
+        name: 'いくら',
+        price: 300,
+        quantity: 0
+      },
+      {
+        name: 'ウニ',
+        price: 500,
+        quantity: 0
+      }
+    ]
+  }
+})
+</script>

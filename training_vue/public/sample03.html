@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title></title>
+  </head>
+  <body style="background: #f0f8ff;">
+    <div id="app">
+      <ul>
+        <li>message: {{ msg }}</li>
+        <li>1番目の果物: {{ fruits[0] }}</li>
+        <li>2番目の果物: {{ fruits[1] }}</li>
+        <li>3番目の果物: {{ fruits[2] }}</li>
+        <li>動物の種類: {{ animal.type }}</li>
+        <li>動物の名前: {{ animal.name }}</li>
+        <li>動物の年齢: {{ animal.age }}</li>
+      </ul>
+    </div>
+  </body>
+</html>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    // 文字列を設定
+    msg: 'this is sample message.',
+    // 配列を設定
+    fruits: ['apple', 'orange', 'lemon'],
+    // Hashを設定
+    animal: {
+      type: 'cat',
+      name: 'タマ',
+      age: 3
+    }
+  }
+})
+</script>
