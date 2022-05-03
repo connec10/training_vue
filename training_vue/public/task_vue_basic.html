@@ -23,11 +23,6 @@
           <tr>
             <th>商品名</th><th>定価(税抜)</th><th>注文数</th>
           </tr>
-          <tr v-for="menu in menus" v-bind:key="menu.name">
-            <td>{{ menu.name }}</td>
-            <td>{{ menu.price }}円</td>
-            <td><input type="number" v-model="menu.quantity" min=0></td>
-          </tr>
         </table>
         <h2>注文リスト</h2>
 
