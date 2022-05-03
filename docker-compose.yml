@@ -9,6 +9,6 @@ services:
       - NODE_ENV=development
     volumes:
       - ./:/app
-    command: sh -c "cd training_vue && npm run serve"
+    command: sh -c "if [ -d ./training_vue/node_modules ]; then cd training_vue && npm run serve; fi"
     ports:
       - "8080:8080"
