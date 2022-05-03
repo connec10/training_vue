@@ -1,0 +1,42 @@
+table, td, th {
+  border-collapse: collapse;
+  border: 1px #333 solid;
+  padding: 8px;
+}
+
+th {
+  background: #eee;
+}
+
+button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+nav {
+  margin-top: 20px;
+}
+nav span {
+  padding: 10px
+}
+
+nav span.active {
+  background: #fff;
+  border: 1px solid;
+  border-bottom-color: #fff;
+  font-weight: bold;
+}
+
+div#menus, div#baskets {
+  margin-top: 6px;
+  padding: 20px;
+  width: 1000px;
+  border: 1px solid;
+  min-height: 700px;
+}
+
+div#menus h2, div#baskets h2 {
+  background: #add8e6;
+  padding: 5px;
+  color: #fff;
+}
