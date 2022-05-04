@@ -14,6 +14,20 @@ $ ./bin/setup
 $ docker exec -it training_vue_node bash
 ```
 
+### down to container
+```
+docker-compose down
+```
+
+### up to container
+```
+docker-compose up
+```
+or
+```
+docker-compose up -d
+```
+
 ## Urls
 ### index
 http://localhost:8080/
