@@ -1,7 +1,17 @@
 #!/bin/bash
 
+# Remove old running containers
+if [ `docker-compose ps | wc -l` -gt 2 ]; then
+  echo "remove old running containers"
+  docker-compose down --rmi all
+fi
+
+# Build images if not exists
+IMAGES=`docker images | egrep 'training_vue_node' | wc -l`
+if [ "$IMAGES" -lt 1 ]; then
+  echo "build images"
+  docker-compose build --no-cache
+fi
+
 # Run containers
 docker-compose up -d
-
-docker exec -it training_vue_node_1 /bin/bash -c "cd training_vue && rm -rf node_modules package-lock.json && npm install"
-docker exec -d training_vue_node_1 /bin/bash -c "cd training_vue && npm run serve"

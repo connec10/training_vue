@@ -4,11 +4,12 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
+    container_name: training_vue_node
     tty: true
     environment:
       - NODE_ENV=development
     volumes:
       - ./:/app
-    command: sh -c "if [ -d ./training_vue/node_modules ]; then cd training_vue && npm run serve; fi"
+    command: sh -c "cd training_vue && yarn serve"
     ports:
       - "8080:8080"
