@@ -35,7 +35,7 @@ div#menus, div#baskets {
   min-height: 700px;
 }
 
-div#menus h2, div#baskets h2 {
+h1, h2 {
   background: #add8e6;
   padding: 5px;
   color: #fff;

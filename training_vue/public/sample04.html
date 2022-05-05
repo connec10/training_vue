@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <body>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title></title>
+  </head>
+  <div id="app">
+    <ul>
+      <li>名前：<input type="text" name="name" v-bind:disabled="disableName" /></li>
+      <li>電話：<input type="tel" name="tel" v-bind:disabled="disableTel" /></li>      
+    </ul>
+    <button v-bind:title="buttonTitle">送信</button>
+  </div>
+  </body>
+</html>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    disableName: false,
+    disableTel: true,
+    buttonTitle: '現在送信できません'
+  }
+})
+</script>
