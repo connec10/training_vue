@@ -35,7 +35,7 @@
     <h1>集計</h1>
     <ul>
       <li>総歩数：{{ totalWalkingCount }} 歩</li>
-      <li>平均歩数：{{ ageWalkingCount }} 歩</li>
+      <li>平均歩数：{{ avgWalkingCount }} 歩</li>
     </ul>
     <h1>歩数情報追加</h1>
     <input type="date" v-model="input_walking.walking_at">
@@ -83,7 +83,7 @@ new Vue({
         return total_walking + walking.walking_count
       }, 0)
     },
-    ageWalkingCount: function () {
+    avgWalkingCount: function () {
       return Math.floor(this.totalWalkingCount / this.walkings.length)
     },
   },
