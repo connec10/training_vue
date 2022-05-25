@@ -9,32 +9,45 @@
   <body>
     <div id="app">
       <nav>
-        <span>
-          メニュー・注文
+        <span v-bind:class="{ active: isActive === 'menus' }">
+          <button id="nav" v-on:click="switchTab('menus')">メニュー・注文</button>
         </span>
-        <span>
-          注文履歴
+        <span v-bind:class="{ active: isActive === 'baskets' }">
+          <button id="nav" v-on:click="switchTab('baskets')">注文履歴</button>
         </span>
       </nav>
       <!-- menus -->
-      <div id="menus">
+      <div id="menus" v-show="isActive === 'menus'">
         <h2>メニュー</h2>
         <table>
           <tr>
             <th>商品名</th><th>定価(税抜)</th><th>注文数</th>
           </tr>
+          <tr v-for="menu in menus" v-bind:key="name">
+            <td>{{ menu.name }}</td>
+            <td>{{ menu.price }}円</td>
+            <td><input type="number" placeholder="0" min="0" v-model="menu.quantity"></td>
+          </tr>
         </table>
         <h2>注文リスト</h2>
-
-        <button>注文する</button>
+        <ul v-for="order in selectedMenus" v-bind:key="name">
+          <li>{{ order.name }} x {{ order.quantity }}皿</li>
+        </ul>
+        <button v-on:click="applyOrder">注文する</button>
       </div>
 
       <!-- baskets -->
-      <div id="baskets">
+      <div id="baskets" v-show="isActive === 'baskets'">
         <h2>注文履歴</h2>
-
+        <ul v-for="order in baskets" v-bind:key="id">
+          <li>{{ order.name }} x {{ order.quantity }}皿</li>
+        </ul>
         <h2>お支払金額</h2>
-
+        <ul>
+          <li>小計：{{ subTotal | thousandsSeparate }}円</li>
+          <li>消費税：{{ tax | thousandsSeparate }}円</li>
+          <li>合計：{{ total | thousandsSeparate }}円</li>
+        </ul>
       </div>
     </div>
 
@@ -71,7 +84,63 @@ new Vue({
         price: 500,
         quantity: 0
       }
-    ]
+    ],
+    baskets: [],
+    isActive: 'menus'
+  },
+  filters: {
+    thousandsSeparate: function (num) {
+      var n = Number(num)
+      return n.toLocaleString()
+    }
+  },
+  computed: {
+    subTotal: function () {
+      var st = this.baskets.reduce(function (sum, menu) {
+        return sum + (menu.price * menu.quantity)
+      },0)
+      return st
+    },
+    tax: function () {
+      return this.subTotal * 0.1
+    },
+    total: function () {
+      return this.subTotal + this.tax
+    },
+    selectedMenus: function () {
+      var array = []
+      for (const menu of this.menus) {
+        if (menu.quantity > 0) {
+          array.push({
+            name: menu.name,
+            price: menu.price,
+            quantity: menu.quantity
+          })
+        }
+      }
+      return array
+    }
+
+  },
+  methods: {
+    applyOrder: function () {
+      for (const order of this.selectedMenus) {
+        this.baskets.push({
+          id: this.baskets.length + 1,
+          name: order.name,
+          price: order.price,
+          quantity: order.quantity
+        })
+        for (const menu of this.menus) {
+          if (menu.name === order.name) {
+            menu.quantity = 0
+          }
+        }
+      }
+    },
+    switchTab: function (str) {
+      this.isActive = str
+    }
   }
 })
 </script>
