@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/task.css">
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <input-date-title></input-date-title>
+      <input-date-with-today></input-date-with-today>
+    </div>
+  </body>
+</html>
+
+<script type="text/x-template" id="input-date-title">
+  <h1>日付の入力</h1>
+</script>
+
+<script>
+  // text/x-templateを使用したtemplateの構築
+  Vue.component('input-date-title', {
+    template: '#input-date-title'
+  })
+
+  // 描画関数を使用したtemplateの構築
+  Vue.component('input-date-with-today', {
+    render: function (createElement) {
+      return createElement(
+        'input',
+        {
+          attrs: {
+            type: 'date',
+            value: new Date().toISOString().substring(0,10)
+          }
+        }
+      )
+    }
+  })
+
+  new Vue({
+    el: '#app'
+  })
+
+
+</script>
