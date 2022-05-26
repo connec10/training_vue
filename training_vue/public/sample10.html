@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/sample.css">
+    <title></title>    
+  </head>
+  <body>
+    <div id="fruits-list">
+      <page-header class="header">
+      </page-header>
+      <page-content class="content">
+      </page-content>
+    </div>
+  </body>
+</html>
+
+<script>
+  var headerTemplate = `
+    <div>
+      <slot name="header"><h1>No Title</h1></slot>
+    </div>
+  `
+
+  var contentTemplate = `
+    <div>
+      <slot name="content">No Contents</slot>
+    </div>
+  `
+
+  Vue.component('page-header', {
+    template: headerTemplate
+  })
+  Vue.component('page-content', {
+    template: contentTemplate
+  })
+
+  new Vue({
+    el: '#fruits-list'
+  })
+</script>
