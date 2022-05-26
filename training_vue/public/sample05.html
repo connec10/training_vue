@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <body>
   <head>
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <link rel="stylesheet" type="text/css" href="css/task.css">
     <title></title>
   </head>
-  <div id="app">
-    <h1>歩数目標</h1>
-    <div>
-      目標歩数：<input type="number" v-model="goal_walking_count"> 歩
+  <body>
+    <div id="app">
+      <h1>歩数目標</h1>
+      <div>
+        目標歩数：<input type="number" v-model="goal_walking_count"> 歩
+      </div>
+      <ul>
+        <li>◎：{{ goal_walking_count * 2 }} 歩以上</li>
+        <li>○：{{ goal_walking_count }} 歩以上</li>
+        <li>-：{{ goal_walking_count }} 歩未満</li>
+      </ul>
+      <h1>歩数</h1>
+      <table>
+        <tr>
+          <th>計測日</th><th>歩数</th><th>目標達成</th>
+        </tr>
+        <tr v-for="walking in walkings" v-bind:key="walking.id">
+          <td>{{ walking.walking_at | formatWalkingAt }}</td>
+          <td>{{ walking.walking_count }} 歩</td>
+          <td>
+            <p v-show="walking.walking_count >= goal_walking_count * 2">◎</p>
+            <p v-show="walking.walking_count < goal_walking_count * 2 && walking.walking_count >= goal_walking_count">○</p>
+            <p v-show="walking.walking_count < goal_walking_count">-</p>
+          </td>
+        </tr>
+      </table>
+      <h1>集計</h1>
+      <ul>
+        <li>総歩数：{{ totalWalkingCount }} 歩</li>
+        <li>平均歩数：{{ avgWalkingCount }} 歩</li>
+      </ul>
+      <h1>歩数情報追加</h1>
+      <input type="date" v-model="input_walking.walking_at">
+      <input type="number" v-model="input_walking.walking_count"> 歩
+      <button v-on:click="addWalking">追加</button>
     </div>
-    <ul>
-      <li>◎：{{ goal_walking_count * 2 }} 歩以上</li>
-      <li>○：{{ goal_walking_count }} 歩以上</li>
-      <li>-：{{ goal_walking_count }} 歩未満</li>
-    </ul>
-    <h1>歩数</h1>
-    <table>
-      <tr>
-        <th>計測日</th><th>歩数</th><th>目標達成</th>
-      </tr>
-      <tr v-for="walking in walkings" v-bind:key="walking.id">
-        <td>{{ walking.walking_at | formatWalkingAt }}</td>
-        <td>{{ walking.walking_count }} 歩</td>
-        <td>
-          <p v-show="walking.walking_count >= goal_walking_count * 2">◎</p>
-          <p v-show="walking.walking_count < goal_walking_count * 2 && walking.walking_count >= goal_walking_count">○</p>
-          <p v-show="walking.walking_count < goal_walking_count">-</p>
-        </td>
-      </tr>
-    </table>
-    <h1>集計</h1>
-    <ul>
-      <li>総歩数：{{ totalWalkingCount }} 歩</li>
-      <li>平均歩数：{{ avgWalkingCount }} 歩</li>
-    </ul>
-    <h1>歩数情報追加</h1>
-    <input type="date" v-model="input_walking.walking_at">
-    <input type="number" v-model="input_walking.walking_count"> 歩
-    <button v-on:click="addWalking">追加</button>
-  </div>
   </body>
 </html>
 

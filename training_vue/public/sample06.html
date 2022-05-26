@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/task.css">
+    <title></title>
+  </head>
+  <body>
+    <div id="fruits-list">
+      <fruits-list-title></fruits-list-title>
+      <fruits-list-description></fruits-list-description>
+      <fruits-list-table v-bind:fruits-items="fruitsItems"></fruits-list-table>
+
+      <p>同じコンポーネントを使って表示するデータだけを変更します。（冬のフルーツのみ表示）</p>
+      <fruits-list-table v-bind:fruits-items="winterFruitsItems"></fruits-list-table>
+
+    </div>
+
+  </body>
+</html>
+
+<script>
+  // コンポーネント(フルーツ一覧ページのタイトル)
+  Vue.component('fruits-list-title', {
+    template: '<h1>フルーツ一覧</h1>'
+  })
+
+  // コンポーネント(フルーツ一覧ページの説明分)
+  Vue.component('fruits-list-description', {
+    template: '<p>季節の代表的なフルーツの一覧です</p>'
+  })
+
+  // コンポーネント(フルーツ一覧ページの一覧テーブル)
+  Vue.component('fruits-list-table', {
+    props: {
+      fruitsItems: {
+        type: Array,
+        required: true
+      }
+    },
+    template: `
+    <table>
+      <tr><th>季節</th><th>フルーツ</th></tr>
+      <fruits-list-name v-for="fruits in fruitsItems" v-bind:key="fruits.name" v-bind:fruits-item="fruits">
+      </fruits-list-name>
+    </table>
+    `
+  })
+
+  // コンポーネント(フルーツ一覧ページの一覧テーブルのデータ部分)
+  Vue.component('fruits-list-name', {
+    props: {
+      fruitsItem: {
+        type: Object,
+        required: true
+      }
+    },
+    template: '<tr><td>{{ fruitsItem.season }}</td><td>{{ fruitsItem.name }}</td></tr>'
+  })
+
+  // ルート`Vue`インスタンスの作成
+  new Vue({
+    el: '#fruits-list',
+    data: {
+      fruitsItems: [
+        { season: '春', name: 'いちご' },
+        { season: '夏', name: 'スイカ' },
+        { season: '秋', name: 'ぶどう' },
+        { season: '冬', name: 'みかん' }
+      ],
+      winterFruitsItems: [
+        { season: '冬', name: 'みかん' },
+        { season: '冬', name: 'ゆず' },
+        { season: '冬', name: 'レモン' }
+      ]
+    }
+  })
+</script>
