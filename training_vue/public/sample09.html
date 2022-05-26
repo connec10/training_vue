@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/task.css">
+    <title></title>
+  </head>
+  <body>
+    <div id="fruits-counter">
+      <div v-for="fruit in fruits">
+        {{ fruit.name }}: <counter-button v-on:increment="incrementCartStatus(fruit)"></counter-button>
+      </div>
+      <p>合計： {{ carts.length }}個のフルーツが追加されています</p>
+      <p>履歴</p>
+      <ul>
+        <li v-for="cart in carts" v-bind:key="cart.name">
+          {{ cart }}を追加しました
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
+
+<script>
+  // 子コンポーネントのカウンターボタン
+  var counterButton = Vue.extend({
+    template: '<span>{{ counter }}個<button v-on:click="addToCart">追加</button></span>',
+    data: function () {
+      return {
+        counter: 0
+      }
+    },
+    methods: {
+      addToCart: function () {
+        this.counter += 1
+        this.$emit('increment') // incrementカスタムイベントの発火
+      }
+    }
+  })
+
+  // 親コンポーネントのカート
+  new Vue({
+    el: '#fruits-counter',
+    components: {
+      'counter-button': counterButton
+    },
+    data: {
+      fruits: [
+        {name: '梨'},
+        {name: 'イチゴ'}
+      ],
+      carts: [] // 押下したフルーツをいれるカート
+    },
+    methods: {
+      incrementCartStatus: function (fruit) {
+        console.log(this.carts)
+        this.carts.push(fruit.name)
+      }
+    }
+  })
+</script>
