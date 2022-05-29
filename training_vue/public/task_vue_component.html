@@ -3,14 +3,67 @@
   <head>
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/task.css">
+    <link rel="stylesheet" type="text/css" href="css/task_component.css">
     <title></title>
   </head>
   <body>
+    <div id="task-component">
+      <div id="header">
+        <div id="system-name">Task Vue Component</div>
+        <div id="select-account">
+          アカウント：
+          <select>
+            <option>ダミーユーザーA</option>
+            <option>ダミーユーザーB</option>
+            <option>ダミーユーザーC</option>
+          </select>
+          <button>変更する</button>
+        </div>
+      </div>
 
+      <div id="content">
+        <div>アカウントを選択してください</div>
+        <div class="sub-content">Content A</div>
+        <div class="sub-content">Content B</div>
+        <div class="sub-content">Content C</div>
+      </div>
+      <task-system-footer></task-system-footer>
+    </div>
+
+    <div id="footer">
+      <span>Copyright © 2022 Connect co., ltd. All rights reserved.</span>
+    </div>
   </body>
 </html>
 
 <script>
-
+new Vue({
+  el: "#task-component",
+  data: {
+    users: [
+      {
+        userId: 1234,
+        name: 'ダミーユーザーA',
+        contentA: true,
+        contentB: true,
+        contentC: true,
+      },
+      {
+        userId: 5678,
+        name: 'ダミーユーザーB',
+        contentA: true,
+        contentB: false,
+        contentC: true,
+      },
+      {
+        userId: 9999,
+        name: 'ダミーユーザーC',
+        contentA: false,
+        contentB: false,
+        contentC: false,
+      },
+    ],
+    user: {}
+  }
+})
 </script>

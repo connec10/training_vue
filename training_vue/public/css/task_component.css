@@ -1,0 +1,41 @@
+div#header, div#footer {
+  width: 90%;
+  height: 60px;
+  background-color: #add8e6;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+div#footer {
+  height: 30px;
+  text-align: right;
+}
+
+#system-name {
+  font-size: 24px;
+  float: left;
+}
+
+#select-account {
+  float: right;
+  padding-top: 30px;
+  padding-right: 20px;
+}
+
+#content {
+  clear: both;
+  min-height: 400px;
+  width: 92%;
+}
+
+select {
+  height: 28px;
+  width: 180px;
+}
+
+.sub-content {
+  background-color: #e6e6fa;
+  margin: 20px 10px;
+  min-height: 120px;
+  padding: 10px;
+}
