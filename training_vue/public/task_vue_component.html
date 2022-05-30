@@ -9,61 +9,96 @@
   <body>
     <div id="task-component">
       <div id="header">
-        <div id="system-name">Task Vue Component</div>
-        <div id="select-account">
-          アカウント：
-          <select>
-            <option>ダミーユーザーA</option>
-            <option>ダミーユーザーB</option>
-            <option>ダミーユーザーC</option>
-          </select>
-          <button>変更する</button>
-        </div>
+        <header-system-name></header-system-name>
+        <header-select-account></header-select-account>
       </div>
 
       <div id="content">
-        <div>アカウントを選択してください</div>
-        <div class="sub-content">Content A</div>
-        <div class="sub-content">Content B</div>
-        <div class="sub-content">Content C</div>
+        <content-login-message></content-login-message>
+        <content-sub-content title="Content A"></content-sub-content>
+        <content-sub-content title="Content B"></content-sub-content>
+        <content-sub-content title="Content C"></content-sub-content>
       </div>
       <task-system-footer></task-system-footer>
     </div>
 
     <div id="footer">
-      <span>Copyright © 2022 Connect co., ltd. All rights reserved.</span>
+      <footer-copyright></footer-copyright>
     </div>
   </body>
 </html>
 
 <script>
-new Vue({
-  el: "#task-component",
-  data: {
-    users: [
-      {
-        userId: 1234,
-        name: 'ダミーユーザーA',
-        contentA: true,
-        contentB: true,
-        contentC: true,
-      },
-      {
-        userId: 5678,
-        name: 'ダミーユーザーB',
-        contentA: true,
-        contentB: false,
-        contentC: true,
-      },
-      {
-        userId: 9999,
-        name: 'ダミーユーザーC',
-        contentA: false,
-        contentB: false,
-        contentC: false,
-      },
-    ],
-    user: {}
-  }
-})
+  Vue.component('header-system-name', {
+    template: '<div id="system-name">Task Vue Component</div>'
+  })
+
+  Vue.component('header-select-account', {
+    template: `
+    <div id="select-account">
+      アカウント：
+      <select>
+        <option>ダミーユーザーA</option>
+        <option>ダミーユーザーB</option>
+        <option>ダミーユーザーC</option>
+      </select>
+      <button>変更する</button>
+    </div>
+    `
+  })
+
+  Vue.component('content-login-message', {
+    template: '<div>アカウントを選択してください</div>'
+  })
+
+  Vue.component('content-sub-content', {
+    props: {
+      title: String
+    },
+    template: '<div class="sub-content">{{ title }}</div>'
+  })
+
+  new Vue({
+    el: "#task-component",
+    data: {
+      users: [
+        {
+          userId: 1234,
+          name: 'ダミーユーザーA',
+          contentA: true,
+          contentB: true,
+          contentC: true,
+        },
+        {
+          userId: 5678,
+          name: 'ダミーユーザーB',
+          contentA: true,
+          contentB: false,
+          contentC: true,
+        },
+        {
+          userId: 9999,
+          name: 'ダミーユーザーC',
+          contentA: false,
+          contentB: false,
+          contentC: false,
+        },
+      ],
+      user: {}
+    }
+  })
+
+  Vue.component('footer-copyright', {
+    template: `
+    <span>
+      Copyright © 2022 Connect co., ltd. All rights reserved.
+    </span>
+    `
+  })
+
+  new Vue({
+    el: "#footer"
+  })
+
+
 </script>
