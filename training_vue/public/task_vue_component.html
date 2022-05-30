@@ -10,7 +10,7 @@
     <div id="task-component">
       <div id="header">
         <header-system-name></header-system-name>
-        <header-select-account></header-select-account>
+        <header-select-account v-bind:users="users"></header-select-account>
       </div>
 
       <div id="content">
@@ -34,13 +34,18 @@
   })
 
   Vue.component('header-select-account', {
+    props: {
+      users: {
+        type: Array
+      }
+    },
     template: `
     <div id="select-account">
       アカウント：
       <select>
-        <option>ダミーユーザーA</option>
-        <option>ダミーユーザーB</option>
-        <option>ダミーユーザーC</option>
+        <option v-for="user in users" v-bind:key="user.userId">
+          {{ user.name }}
+        </option>
       </select>
       <button>変更する</button>
     </div>
