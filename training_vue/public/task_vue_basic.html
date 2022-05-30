@@ -23,18 +23,32 @@
           <tr>
             <th>商品名</th><th>定価(税抜)</th><th>注文数</th>
           </tr>
+          <tr v-for="menu in menus" v-bind:key="menu.name">
+            <td>{{ menu.name }}</td>
+            <td>{{ menu.price }}円</td>
+            <td><input type="number" v-model="menu.quantity"></td>
+          </tr>
         </table>
         <h2>注文リスト</h2>
+        <ul v-for="order in orderLists" v-bind:key="order.name">
+          <li>{{ order | formatOrderName }}</li>
+        </ul>
 
-        <button>注文する</button>
+        <button @click="addOrder">注文する</button>
       </div>
 
       <!-- baskets -->
       <div id="baskets">
         <h2>注文履歴</h2>
-
+        <ul v-for="or in order" v-bind:key="or.id">
+          <li>{{or | formatOrderName }}</li>
+        </ul>
         <h2>お支払金額</h2>
-
+        <ul>
+          <li>小計：{{ orderSubTotal | formatPrice }}円</li>
+          <li>税：{{ orderTax | formatPrice}}円</li>
+          <li>合計：{{ orderTotal | formatPrice }}円</li>
+        </ul>
       </div>
     </div>
 
@@ -71,7 +85,62 @@ new Vue({
         price: 500,
         quantity: 0
       }
-    ]
+    ],
+    order: [],
+  },
+  filters: {
+    formatPrice: function (price) {
+      return price.toLocaleString()
+    },
+    formatOrderName: function (order) {
+      return order.name + ' x ' + order.quantity + '皿'
+    },
+  },
+  computed: {
+    orderLists: function () {
+      let orderLists = []
+      for (let menu of this.menus) {
+          if (menu.quantity > 0) {
+            orderLists.push({
+              name: menu.name,
+              price: menu.price,
+              quantity: menu.quantity
+            })
+          }
+      }
+      return orderLists
+    },
+    orderSubTotal: function () {
+      return this.order.reduce(function (sum, menu) {
+        return sum + (menu.price * menu.quantity)
+      },0)
+    },
+    orderTax: function () {
+      return this.orderSubTotal * 0.1
+    },
+    orderTotal: function () {
+      return this.orderSubTotal + this.orderTax
+    }
+  },
+  methods: {
+    addOrder: function () {
+      for (let list of this.orderLists) {
+        if (list.quantity > 0) {
+          this.order.push({
+            id: this.order.length + 1,
+            name: list.name,
+            price: list.price,
+            quantity: list.quantity,
+          })
+        }
+      }
+      for (let menu of this.menus) {
+        if (menu.quantity > 0) {
+          menu.quantity = 0
+        }
+      }
+    }
+
   }
 })
 </script>
