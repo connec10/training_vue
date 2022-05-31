@@ -10,7 +10,7 @@
     <div id="task-component">
       <div id="header">
         <header-system-name></header-system-name>
-        <header-select-account v-bind:users="users"></header-select-account>
+        <header-select-account v-bind:users="users" v-on:adduser="addUser"></header-select-account>
       </div>
 
       <div id="content">
@@ -34,20 +34,30 @@
   })
 
   Vue.component('header-select-account', {
+    data: function () {
+      return {
+        selected: ''
+      }
+    },
     props: {
       users: {
         type: Array
+      },
+    },
+    methods: {
+      changeUser: function () {
+        this.$emit('adduser', this.selected)
       }
     },
     template: `
     <div id="select-account">
       アカウント：
-      <select>
+      <select v-model="selected">
         <option v-for="user in users" v-bind:key="user.userId">
           {{ user.name }}
         </option>
       </select>
-      <button>変更する</button>
+      <button v-on:click="changeUser">変更する</button>
     </div>
     `
   })
@@ -89,7 +99,15 @@
           contentC: false,
         },
       ],
-      user: {}
+      user: {},
+      selectedUser: '',
+    },
+    methods: {
+      addUser: function (user) {
+        this.user = {
+          name: user
+        }
+      }
     }
   })
 
@@ -104,6 +122,5 @@
   new Vue({
     el: "#footer"
   })
-
 
 </script>
