@@ -42,7 +42,7 @@ h1, h2 {
 }
 
 .nav-button {
-  margin: 0px;
+  margin-bottom: 0px;
   border: none;
   background-color: white;
 }

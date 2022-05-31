@@ -119,7 +119,7 @@ new Vue({
     orderSubTotal: function () {
       return this.orderHistories.reduce(function (sum, menu) {
         return sum + (menu.price * menu.quantity)
-      },0)
+      }, 0)
     },
     orderTax: function () {
       return this.orderSubTotal * 0.1
