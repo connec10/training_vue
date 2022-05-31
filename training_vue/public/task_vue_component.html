@@ -10,10 +10,7 @@
     <div id="task-component">
       <task-header v-bind:users="users" v-bind:add-user="addUser"></task-header>
       <task-content v-bind:user="user" v-bind:is-user-selected="isUserSelected"></task-content>
-    </div>
-
-    <div id="footer">
-      <footer-copyright></footer-copyright>
+      <task-footer></task-footer>
     </div>
   </body>
 </html>
@@ -122,6 +119,16 @@
     template: contentCTemplate
   })
 
+  Vue.component('task-footer', {
+    template: `
+    <div id="footer">
+      <span>
+        Copyright © 2022 Connect co., ltd. All rights reserved.
+      </span>
+    </div>
+    `
+  })
+
   new Vue({
     el: "#task-component",
     data: {
@@ -167,18 +174,6 @@
         }
       }
     }
-  })
-
-  Vue.component('footer-copyright', {
-    template: `
-    <span>
-      Copyright © 2022 Connect co., ltd. All rights reserved.
-    </span>
-    `
-  })
-
-  new Vue({
-    el: "#footer"
   })
 
 </script>
