@@ -14,10 +14,10 @@
       </div>
 
       <div id="content">
-        <content-login-message v-bind:is-display="!isUserSelected"></content-login-message>
-        <content-sub-content title="Content A" v-bind:is-display="user.contentA"></content-sub-content>
-        <content-sub-content title="Content B" v-bind:is-display="user.contentB"></content-sub-content>
-        <content-sub-content title="Content C" v-bind:is-display="user.contentC"></content-sub-content>
+        <content-login-message v-show="!isUserSelected"></content-login-message>
+        <content-sub-content title="Content A" v-show="user.contentA"></content-sub-content>
+        <content-sub-content title="Content B" v-show="user.contentB"></content-sub-content>
+        <content-sub-content title="Content C" v-show="user.contentC"></content-sub-content>
       </div>
       <task-system-footer></task-system-footer>
     </div>
@@ -63,18 +63,14 @@
   })
 
   Vue.component('content-login-message', {
-    props: {
-      isDisplay: Boolean
-    },
-    template: '<div v-show="isDisplay">アカウントを選択してください</div>'
+    template: '<div>アカウントを選択してください</div>'
   })
 
   Vue.component('content-sub-content', {
     props: {
-      title: String,
-      isDisplay: Boolean
+      title: String
     },
-    template: '<div class="sub-content" v-show="isDisplay">{{ title }}</div>'
+    template: '<div class="sub-content">{{ title }}</div>'
   })
 
   new Vue({
