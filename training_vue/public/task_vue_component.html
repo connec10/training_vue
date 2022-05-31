@@ -14,10 +14,10 @@
       </div>
 
       <div id="content">
-        <content-login-message></content-login-message>
-        <content-sub-content title="Content A"></content-sub-content>
-        <content-sub-content title="Content B"></content-sub-content>
-        <content-sub-content title="Content C"></content-sub-content>
+        <content-login-message v-bind:is-display="!isUserSelected"></content-login-message>
+        <content-sub-content title="Content A" v-bind:is-display="user.contentA"></content-sub-content>
+        <content-sub-content title="Content B" v-bind:is-display="user.contentB"></content-sub-content>
+        <content-sub-content title="Content C" v-bind:is-display="user.contentC"></content-sub-content>
       </div>
       <task-system-footer></task-system-footer>
     </div>
@@ -63,14 +63,18 @@
   })
 
   Vue.component('content-login-message', {
-    template: '<div>アカウントを選択してください</div>'
+    props: {
+      isDisplay: Boolean
+    },
+    template: '<div v-show="isDisplay">アカウントを選択してください</div>'
   })
 
   Vue.component('content-sub-content', {
     props: {
-      title: String
+      title: String,
+      isDisplay: Boolean
     },
-    template: '<div class="sub-content">{{ title }}</div>'
+    template: '<div class="sub-content" v-show="isDisplay">{{ title }}</div>'
   })
 
   new Vue({
@@ -100,12 +104,21 @@
         },
       ],
       user: {},
-      selectedUser: '',
+      isUserSelected: false,
     },
     methods: {
-      addUser: function (user) {
-        this.user = {
-          name: user
+      addUser: function (userName) {
+        var selectedUser = this.users.find(user => user.name === userName)
+        if (selectedUser != undefined) {
+          this.user = {
+            name: userName,
+            contentA: selectedUser.contentA,
+            contentB: selectedUser.contentB,
+            contentC: selectedUser.contentC,
+          }
+          this.isUserSelected = true
+        } else {
+          this.isUserSelected = false
         }
       }
     }
