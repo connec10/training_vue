@@ -40,3 +40,9 @@ h1, h2 {
   padding: 5px;
   color: #fff;
 }
+
+.nav-button {
+  margin-bottom: 0px;
+  border: none;
+  background-color: white;
+}

@@ -9,35 +9,48 @@
   <body>
     <div id="app">
       <nav>
-        <span>
-          メニュー・注文
+        <span v-bind:class="{ active: navStatus == 'menus' }">
+          <button class="nav-button" v-on:click="switchTab('menus')">メニュー・注文</button>
         </span>
-        <span>
-          注文履歴
+        <span v-bind:class="{ active: navStatus == 'baskets' }">
+          <button class="nav-button" @click="switchTab('baskets')">注文履歴</button>
         </span>
       </nav>
       <!-- menus -->
-      <div id="menus">
+      <div id="menus" v-show="navStatus == 'menus'">
         <h2>メニュー</h2>
         <table>
           <tr>
             <th>商品名</th><th>定価(税抜)</th><th>注文数</th>
           </tr>
+          <tr v-for="menu in menus" v-bind:key="menu.id">
+            <td>{{ menu.name }}</td>
+            <td>{{ menu.price }}円</td>
+            <td><input type="number" v-model="menu.quantity"></td>
+          </tr>
         </table>
         <h2>注文リスト</h2>
+        <ul v-for="order in orderLists" v-bind:key="order.id">
+          <li>{{ order | formatOrderName }}</li>
+        </ul>
 
-        <button>注文する</button>
+        <button @click="addOrder">注文する</button>
       </div>
 
       <!-- baskets -->
-      <div id="baskets">
+      <div id="baskets" v-show="navStatus == 'baskets'">
         <h2>注文履歴</h2>
-
+        <ul v-for="order in orderHistories" v-bind:key="order.id">
+          <li>{{order | formatOrderName }}</li>
+        </ul>
         <h2>お支払金額</h2>
-
+        <ul>
+          <li>小計：{{ orderSubTotal | formatPrice }}円</li>
+          <li>税：{{ orderTax | formatPrice}}円</li>
+          <li>合計：{{ orderTotal | formatPrice }}円</li>
+        </ul>
       </div>
     </div>
-
   </body>
 </html>
 
@@ -47,31 +60,95 @@ new Vue({
   data: {
     menus: [
       {
+        id: 1,
         name: 'ねぎトロ',
         price: 120,
         quantity: 0
       },
       {
+        id: 2,
         name: 'サーモン',
         price: 150,
         quantity: 0
       },
       {
+        id: 3,
         name: 'えんがわ',
         price: 220,
         quantity: 0
       },
       {
+        id: 4,
         name: 'いくら',
         price: 300,
         quantity: 0
       },
       {
+        id: 5,
         name: 'ウニ',
         price: 500,
         quantity: 0
       }
-    ]
+    ],
+    orderHistories: [],
+    navStatus: 'menus'
+  },
+  filters: {
+    formatPrice: function (price) {
+      return price.toLocaleString()
+    },
+    formatOrderName: function (order) {
+      return order.name + ' x ' + order.quantity + '皿'
+    },
+  },
+  computed: {
+    orderLists: function () {
+      let orderLists = []
+      for (let menu of this.menus) {
+          if (menu.quantity > 0) {
+            orderLists.push({
+              id: menu.id,
+              name: menu.name,
+              price: menu.price,
+              quantity: menu.quantity
+            })
+          }
+      }
+      return orderLists
+    },
+    orderSubTotal: function () {
+      return this.orderHistories.reduce(function (sum, menu) {
+        return sum + (menu.price * menu.quantity)
+      }, 0)
+    },
+    orderTax: function () {
+      return this.orderSubTotal * 0.1
+    },
+    orderTotal: function () {
+      return this.orderSubTotal + this.orderTax
+    }
+  },
+  methods: {
+    addOrder: function () {
+      for (let list of this.orderLists) {
+        if (list.quantity > 0) {
+          this.orderHistories.push({
+            id: this.orderHistories.length + 1,
+            name: list.name,
+            price: list.price,
+            quantity: list.quantity,
+          })
+        }
+      }
+      for (let menu of this.menus) {
+        if (menu.quantity > 0) {
+          menu.quantity = 0
+        }
+      }
+    },
+    switchTab: function (tabName) {
+      this.navStatus = tabName
+    }
   }
 })
 </script>
