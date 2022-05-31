@@ -8,18 +8,8 @@
   </head>
   <body>
     <div id="task-component">
-      <div id="header">
-        <header-system-name></header-system-name>
-        <header-select-account v-bind:users="users" v-on:adduser="addUser"></header-select-account>
-      </div>
-
-      <div id="content">
-        <content-login-message v-show="!isUserSelected"></content-login-message>
-        <content-a v-show="user.contentA"></content-a>
-        <content-b v-show="user.contentB"></content-b>
-        <content-c v-show="user.contentC"></content-c>
-      </div>
-      <task-system-footer></task-system-footer>
+      <task-header v-bind:users="users" v-bind:add-user="addUser"></task-header>
+      <task-content v-bind:user="user" v-bind:is-user-selected="isUserSelected"></task-content>
     </div>
 
     <div id="footer">
@@ -46,6 +36,23 @@
       <slot name="content">content C</slot>
     </div>
   `
+
+  Vue.component('task-header', {
+    props: {
+      users: {
+        type: Array
+      },
+      addUser: {
+        type: Function
+      },
+    },
+    template: `
+    <div id="header">
+      <header-system-name></header-system-name>
+      <header-select-account v-bind:users="users" v-on:adduser="addUser"></header-select-account>
+    </div>
+    `
+  })
 
   Vue.component('header-system-name', {
     template: '<div id="system-name">Task Vue Component</div>'
@@ -76,6 +83,25 @@
         </option>
       </select>
       <button v-on:click="changeUser">変更する</button>
+    </div>
+    `
+  })
+
+  Vue.component('task-content', {
+    props: {
+      user: {
+        type: Object
+      },
+      isUserSelected: {
+        type: Boolean
+      },
+    },
+    template: `
+    <div id="content">
+      <content-login-message v-show="!isUserSelected"></content-login-message>
+      <content-a v-show="user.contentA"></content-a>
+      <content-b v-show="user.contentB"></content-b>
+      <content-c v-show="user.contentC"></content-c>
     </div>
     `
   })
