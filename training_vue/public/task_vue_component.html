@@ -15,9 +15,9 @@
 
       <div id="content">
         <content-login-message v-show="!isUserSelected"></content-login-message>
-        <content-sub-content title="Content A" v-show="user.contentA"></content-sub-content>
-        <content-sub-content title="Content B" v-show="user.contentB"></content-sub-content>
-        <content-sub-content title="Content C" v-show="user.contentC"></content-sub-content>
+        <content-a v-show="user.contentA"></content-a>
+        <content-b v-show="user.contentB"></content-b>
+        <content-c v-show="user.contentC"></content-c>
       </div>
       <task-system-footer></task-system-footer>
     </div>
@@ -29,6 +29,24 @@
 </html>
 
 <script>
+  var contentATemplate = `
+    <div class="sub-content">
+      <slot name="content">content A</slot>
+    </div>
+  `
+
+  var contentBTemplate = `
+    <div class="sub-content">
+      <slot name="content">content B</slot>
+    </div>
+  `
+
+  var contentCTemplate = `
+    <div class="sub-content">
+      <slot name="content">content C</slot>
+    </div>
+  `
+
   Vue.component('header-system-name', {
     template: '<div id="system-name">Task Vue Component</div>'
   })
@@ -66,11 +84,16 @@
     template: '<div>アカウントを選択してください</div>'
   })
 
-  Vue.component('content-sub-content', {
-    props: {
-      title: String
-    },
-    template: '<div class="sub-content">{{ title }}</div>'
+  Vue.component('content-a', {
+    template: contentATemplate
+  })
+
+  Vue.component('content-b', {
+    template: contentBTemplate
+  })
+
+  Vue.component('content-c', {
+    template: contentCTemplate
   })
 
   new Vue({
