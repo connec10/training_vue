@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Vue.js SPAのサンプルアプリケーション</title>
+    <script src="https://unpkg.com/vue@2.6.14"></script>
+    <script src="https://unpkg.com/vue-router@3.5.1"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <router-link to="/user">ユーザー</router-link>
+      <router-link to="/user_list">ユーザー一覧</router-link>
+      <router-link to="/user/1234">ユーザー詳細</router-link>
+      <router-link :to="{ name: 'event', params: { eventId: 4567 }}">イベント一覧</router-link>
+      <router-view></router-view>
+      <button v-on:click="pushMove">router.pushを使って遷移する</button>
+    </div>
+  </body>
+</html>
+
+<script>
+var userList = {
+  template: '<div>ユーザー一覧。遷移前にアラートを出す</div>',
+  beforeRouteEnter: function (to, from, next) {
+    alert('ユーザー一覧に遷移します')
+    next()
+  }
+}
+var router = new VueRouter({
+  routes: [
+    {
+      path: '/',
+      component: {
+        template: '<div></div>'
+      }
+    },
+    {
+      path: '/user',
+      component: {
+        template: '<div>beforeEachによってリダイレクトされるため、このテンプレートは表示されません</div>'
+      }
+    },
+    {
+      path: '/user/:userId',  // コロンで始まるパターンマッチング
+      component: {
+        template: '<div>ユーザーIDは {{ $route.params.userId }}</div>'
+      }
+    },
+    {
+      path: '/events/:eventId',
+      name: 'event',
+      component: {
+        template: '<div>イベントIDは {{ $route.params.eventId }}</div>'
+      }
+    },
+    {
+      path: '/user_list',
+      component: userList,
+      beforeEnter: function (to, from, next) {
+        alert('コンポーネント内のフック関数（beforeRouteEnter）より前に実行されます')
+        next()
+      }
+    }
+  ]
+})
+
+router.beforeEach(function (to, from, next) {
+  if (to.path === '/user') {
+    next('/user/1')
+  } else {
+    // 引数なしでnextを呼び出すと通常通りの遷移が行われる
+    next()
+  }
+})
+
+var app = new Vue({
+  router: router,
+  methods: {
+    pushMove: function () {
+      router.push({ name: 'event', params: { eventId: 890 }})
+    }
+  }
+}).$mount('#app')
+</script>
