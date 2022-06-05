@@ -8,62 +8,172 @@
   </head>
   <body>
     <div id="task-component">
-      <div id="header">
-        <div id="system-name">Task Vue Component</div>
-        <div id="select-account">
-          アカウント：
-          <select>
-            <option>ダミーユーザーA</option>
-            <option>ダミーユーザーB</option>
-            <option>ダミーユーザーC</option>
-          </select>
-          <button>変更する</button>
-        </div>
-      </div>
-
-      <div id="content">
-        <div>アカウントを選択してください</div>
-        <div class="sub-content">Content A</div>
-        <div class="sub-content">Content B</div>
-        <div class="sub-content">Content C</div>
-      </div>
-      <task-system-footer></task-system-footer>
-    </div>
-
-    <div id="footer">
-      <span>Copyright © 2022 Connect co., ltd. All rights reserved.</span>
+      <task-header v-bind:users="users" v-bind:add-user="addUser"></task-header>
+      <task-content v-bind:user="user" v-bind:is-user-selected="isUserSelected"></task-content>
+      <task-footer></task-footer>
     </div>
   </body>
 </html>
 
 <script>
-new Vue({
-  el: "#task-component",
-  data: {
-    users: [
-      {
-        userId: 1234,
-        name: 'ダミーユーザーA',
-        contentA: true,
-        contentB: true,
-        contentC: true,
+  var contentATemplate = `
+    <div class="sub-content">
+      <slot name="content">content A</slot>
+    </div>
+  `
+
+  var contentBTemplate = `
+    <div class="sub-content">
+      <slot name="content">content B</slot>
+    </div>
+  `
+
+  var contentCTemplate = `
+    <div class="sub-content">
+      <slot name="content">content C</slot>
+    </div>
+  `
+
+  Vue.component('task-header', {
+    props: {
+      users: {
+        type: Array
       },
-      {
-        userId: 5678,
-        name: 'ダミーユーザーB',
-        contentA: true,
-        contentB: false,
-        contentC: true,
+      addUser: {
+        type: Function
       },
-      {
-        userId: 9999,
-        name: 'ダミーユーザーC',
-        contentA: false,
-        contentB: false,
-        contentC: false,
+    },
+    template: `
+    <div id="header">
+      <header-system-name></header-system-name>
+      <header-select-account v-bind:users="users" v-on:adduser="addUser"></header-select-account>
+    </div>
+    `
+  })
+
+  Vue.component('header-system-name', {
+    template: '<div id="system-name">Task Vue Component</div>'
+  })
+
+  Vue.component('header-select-account', {
+    data: function () {
+      return {
+        selected: ''
+      }
+    },
+    props: {
+      users: {
+        type: Array
       },
-    ],
-    user: {}
-  }
-})
+    },
+    methods: {
+      changeUser: function () {
+        this.$emit('adduser', this.selected)
+      }
+    },
+    template: `
+    <div id="select-account">
+      アカウント：
+      <select v-model="selected">
+        <option v-for="user in users" v-bind:key="user.userId">
+          {{ user.name }}
+        </option>
+      </select>
+      <button v-on:click="changeUser">変更する</button>
+    </div>
+    `
+  })
+
+  Vue.component('task-content', {
+    props: {
+      user: {
+        type: Object
+      },
+      isUserSelected: {
+        type: Boolean
+      },
+    },
+    template: `
+    <div id="content">
+      <content-login-message v-show="!isUserSelected"></content-login-message>
+      <content-a v-show="user.contentA"></content-a>
+      <content-b v-show="user.contentB"></content-b>
+      <content-c v-show="user.contentC"></content-c>
+    </div>
+    `
+  })
+
+  Vue.component('content-login-message', {
+    template: '<div>アカウントを選択してください</div>'
+  })
+
+  Vue.component('content-a', {
+    template: contentATemplate
+  })
+
+  Vue.component('content-b', {
+    template: contentBTemplate
+  })
+
+  Vue.component('content-c', {
+    template: contentCTemplate
+  })
+
+  Vue.component('task-footer', {
+    template: `
+    <div id="footer">
+      <span>
+        Copyright © 2022 Connect co., ltd. All rights reserved.
+      </span>
+    </div>
+    `
+  })
+
+  new Vue({
+    el: "#task-component",
+    data: {
+      users: [
+        {
+          userId: 1234,
+          name: 'ダミーユーザーA',
+          contentA: true,
+          contentB: true,
+          contentC: true,
+        },
+        {
+          userId: 5678,
+          name: 'ダミーユーザーB',
+          contentA: true,
+          contentB: false,
+          contentC: true,
+        },
+        {
+          userId: 9999,
+          name: 'ダミーユーザーC',
+          contentA: false,
+          contentB: false,
+          contentC: false,
+        },
+      ],
+      user: {},
+      isUserSelected: false,
+    },
+    methods: {
+      addUser: function (userName) {
+        var selectedUser = this.users.find(user => user.name === userName)
+        if (selectedUser != undefined) {
+          this.user = {
+            name: userName,
+            contentA: selectedUser.contentA,
+            contentB: selectedUser.contentB,
+            contentC: selectedUser.contentC,
+          }
+          this.isUserSelected = true
+        } else {
+          this.isUserSelected = false
+        }
+      }
+    }
+  })
+
 </script>
