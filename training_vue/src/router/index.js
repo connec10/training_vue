@@ -6,6 +6,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    component: () => ''
+  },
+  {
     path: '/task_list',
     name: 'task_list',
     component: () => import('../views/TaskList.vue')
