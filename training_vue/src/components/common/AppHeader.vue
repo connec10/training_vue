@@ -3,10 +3,10 @@
     <div class="app-name">Task SFC</div>
     <nav v-cloak>
       <router-link to="/top">トップページ</router-link>
-      <router-link to="/users">ユーザー一覧ページ</router-link>
-      <router-link to="/users/new">新規ユーザー登録</router-link>
-      <router-link to="/login">ログイン</router-link>
-      <router-link to="/logout">ログアウト</router-link>
+      <router-link to="/">ユーザー一覧ページ</router-link>
+      <router-link to="/">新規ユーザー登録</router-link>
+      <router-link to="/">ログイン</router-link>
+      <router-link to="/">ログアウト</router-link>
     </nav>
   </div>
 </template>

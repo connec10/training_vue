@@ -25,27 +25,9 @@ const routes = [
     component: () => import('../views/Top.vue')
   },
   {
-    path: '/users',
-    component: () => import('../views/UserList.vue')
-  },
-  {
-    path: '/users/new',
-    component: () => import('../views/UserCreate.vue')
-  },
-  {
-    path: '/users/:userId',
-    component: () => import('../views/UserDetail.vue')
-  },
-  {
-    path: '/login',
-    component: () => import('../views/Login.vue')
-  },
-  {
     path: '/logout',
     beforeEnter: function (to, from, next) {
       Auth.logout()
-      alert('ログアウトしました。Topへ戻ります')
-      next('/')
     }
   },
   {
