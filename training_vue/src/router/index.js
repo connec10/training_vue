@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Auth from '/mock/Auth.js'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    component: () => ''
+  },
   {
     path: '/task_list',
     name: 'task_list',
@@ -19,6 +23,20 @@ const routes = [
     path: '/task_delete',
     name: 'task_delete',
     component: () => import('../views/TaskDelete.vue')
+  },
+  {
+    path: '/top',
+    component: () => import('../views/Top.vue')
+  },
+  {
+    path: '/logout',
+    beforeEnter: function (to, from, next) {
+      Auth.logout()
+    }
+  },
+  {
+    path: '*',
+    redirect: '/top'
   },
 ]
 
