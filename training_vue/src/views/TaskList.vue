@@ -1,3 +1,3 @@
 <template>
-  <div>task list</div>
+  <div>Task List</div>
 </template>
