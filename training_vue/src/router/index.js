@@ -38,6 +38,12 @@ const routes = [
     path: '*',
     redirect: '/top'
   },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../views/Users.vue')
+  },
+
 ]
 
 const router = new VueRouter({
