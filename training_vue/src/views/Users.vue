@@ -10,7 +10,9 @@
       </thead>
       <tbody>
         <tr v-for="user in users" v-bind:key="user.id">
-          <td>{{ user.id }}</td><td>{{ user.name }}</td><td>詳細</td>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td><router-link :to="{ name: 'userDetail', params: { userId: user.id }}">詳細</router-link></td>
         </tr>
       </tbody>
     </table>
@@ -34,7 +36,7 @@
     methods: {
       getUsers: function () {
         this.isUserDataLoading = true
-        Api.getUsers(function (err, users) {
+        Api.getUsers(function (p, users) {
           this.users = users
         }.bind(this))
         this.isUserDataLoading = false
