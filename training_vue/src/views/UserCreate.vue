@@ -1,15 +1,13 @@
 <template>
   <div id="app">
-    <div>Sending...</div>
+    <div v-show="isSending">Sending...</div>
     <div>新規ユーザー作成</div>
     <div>名前：<input type="text" v-model="inputName"></div>
-    <div>説明文：<textarea name="" id="" cols="30" rows="10" v-model="inputDescription"></textarea></div>
-    <div>エラーメッセージ</div>
+    <div>説明文：<textarea cols="30" rows="10" v-model="inputDescription"></textarea></div>
+    <ul v-for="error in errors" :key="error">
+      <li>{{ error }}</li>
+    </ul>
     <button v-on:click="postUser()">送信</button>
-
-    <!-- Test -->
-    <div>inputName: {{ inputName }}</div>
-    <div>inputDescription: {{ inputDescription }}</div>
   </div>
 </template>
 
@@ -21,16 +19,41 @@
       return {
         inputName: '',
         inputDescription: '',
+        createdUser: {},
+        messageCreateSuccess: '新規ユーザー登録されました',
+        isSending: false,
+        errors: [],
       }
     },
-    created: function () {
-      this.postUser()
-    },
-    watch: { '$route': 'postUser' },
     methods: {
       postUser: function () {
-        console.log('postUser')
-        // Api.getUsers()
+        this.isSending = true
+        this.createdUser = {}
+        this.errors = []
+
+        var user = {
+          id: null,
+          name: this.inputName,
+          description: this.inputDescription
+        }
+        var afterPostUser = function (errors, user) {
+          if (errors === null) {
+            this.createdUser = user
+          } else {
+            this.errors = errors
+          }
+          
+          if (JSON.stringify(this.createdUser) !== JSON.stringify({})) {
+            alert(this.messageCreateSuccess)
+            this.moveToUserDetail(this.createdUser.id)
+          }
+          this.isSending = false
+        }.bind(this)
+
+        Api.postUser(user, afterPostUser)
+      },
+      moveToUserDetail: function (userId) {
+        this.$router.push({ name: 'userDetail', params: { userId: userId }})
       },
     },
   }
