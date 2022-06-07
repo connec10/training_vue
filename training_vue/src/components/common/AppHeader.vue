@@ -3,10 +3,13 @@
     <div class="app-name">Task SFC</div>
     <nav v-cloak>
       <router-link to="/top">トップページ</router-link>
-      <router-link to="/">ユーザー一覧ページ</router-link>
-      <router-link to="/">新規ユーザー登録</router-link>
-      <router-link to="/">ログイン</router-link>
-      <router-link to="/">ログアウト</router-link>
+      <router-link to="/users">ユーザー一覧ページ</router-link>
+      <router-link to="/user_create">新規ユーザー登録</router-link>
+      <router-link v-show="!testLoginState" to="/login">ログイン</router-link>
+      <router-link v-show="testLoginState" to="/top">ログアウト</router-link>
+      <button v-on:click="checkLogin">check login</button>
+      <button v-on:click="logout">logout</button>
+      <button v-on:click="test">test</button>
     </nav>
   </div>
 </template>
@@ -17,8 +20,22 @@ import Auth from '/mock/Auth.js'
 export default {
   data: function () {
     return {
-      Auth: Auth
+      Auth: Auth,
+      testLoginState: true,
     }
+  },
+  watch: {loginState:'test'},
+  methods: {
+    test: function () {
+      this.testLoginState = !this.testLoginState
+    },
+    checkLogin: function () {
+      Auth.loggedIn()
+    },
+    logout: function () {
+      Auth.logout()
+      // ログアウトしました。トップページへ遷移します。
+    },
   }
 }
 </script>
