@@ -1,11 +1,19 @@
 <template>
   <div id="app">
     <div v-show="isSending">Sending...</div>
-    <div>新規ユーザー作成</div>
-    <div>名前：<input type="text" v-model="inputName"></div>
-    <div>説明文：<textarea cols="30" rows="10" v-model="inputDescription"></textarea></div>
+    <h1>新規ユーザー作成</h1>
+    <table>
+      <tr>
+        <td>名前：</td>
+        <td><input type="text" v-model="inputName"/></td>
+      </tr>
+      <tr>
+        <td>説明文：</td>
+        <td><textarea cols="30" rows="10" v-model="inputDescription"></textarea></td>
+      </tr>
+    </table>
     <ul v-for="error in errors" :key="error">
-      <li>{{ error }}</li>
+      <li class="error_message">{{ error }}</li>
     </ul>
     <button v-on:click="postUser()">送信</button>
   </div>
@@ -60,5 +68,7 @@
 </script>
 
 <style>
-
+.error_message {
+  color: red;
+}
 </style>

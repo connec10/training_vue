@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div>ユーザー詳細</div>
-    <div>{{ user.name }}</div>
+    <h1>ユーザー詳細</h1>
+    <h2>{{ user.name }}</h2>
     <div>{{ user.description }}</div>
   </div>
 </template>

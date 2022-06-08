@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div>ユーザー一覧</div>
+    <h1>ユーザー一覧</h1>
     <div v-show="isUserDataLoading">読み込み中…</div>
     <table>
       <thead>
