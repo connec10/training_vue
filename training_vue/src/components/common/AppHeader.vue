@@ -5,11 +5,8 @@
       <router-link to="/top">トップページ</router-link>
       <router-link to="/users">ユーザー一覧ページ</router-link>
       <router-link to="/user_create">新規ユーザー登録</router-link>
-      <router-link v-show="!testLoginState" to="/login">ログイン</router-link>
-      <router-link v-show="testLoginState" to="/top">ログアウト</router-link>
-      <button v-on:click="checkLogin">check login</button>
-      <button v-on:click="logout">logout</button>
-      <button v-on:click="test">test</button>
+      <router-link v-show="!login" to="/login">ログイン</router-link>
+      <router-link v-show="login" v-on:click.native="logout" to="*">ログアウト</router-link>
     </nav>
   </div>
 </template>
@@ -18,24 +15,24 @@
 import Auth from '/mock/Auth.js'
 
 export default {
-  data: function () {
-    return {
-      Auth: Auth,
-      testLoginState: true,
+  props: {
+    login: {
+      type: Boolean,
+      default: Auth.loggedIn()
     }
   },
-  watch: {loginState:'test'},
+  data: function () {
+    return {
+      Auth: Auth
+    }
+  },
   methods: {
-    test: function () {
-      this.testLoginState = !this.testLoginState
-    },
-    checkLogin: function () {
-      Auth.loggedIn()
-    },
     logout: function () {
       Auth.logout()
-      // ログアウトしました。トップページへ遷移します。
-    },
+      this.$emit('update-login', false)
+      alert('ログアウトしました。トップページへ遷移します。')
+    }
+
   }
 }
 </script>

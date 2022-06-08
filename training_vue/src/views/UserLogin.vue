@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Api from '../../mock/Auth.js'
+import Auth from '../../mock/Auth.js'
 
 export default {
   data: function () {
@@ -27,17 +27,16 @@ export default {
       var pass = this.inputPassword
       var cb = function (isLoginSuccess) {
         if (isLoginSuccess) {
-          this.moveToTop()
+          this.$emit('update-login', true)
+          this.$router.push('/top')
         } else {
+          this.$emit('update-login', false)
           this.errors.push('ログインに失敗しました')
         }
       }.bind(this)
 
-      Api.login(email, pass, cb)
+      Auth.login(email, pass, cb)
     },
-    moveToTop: function () {
-      this.$router.push('/top')
-    }
   }
 }
 </script>
