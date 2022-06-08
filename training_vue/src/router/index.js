@@ -51,7 +51,14 @@ const routes = [
   {
     path: '/user_create',
     name: 'userCreate',
-    component: () => import('../views/UserCreate.vue')
+    component: () => import('../views/UserCreate.vue'),
+    beforeEnter: function (to, from, next) {
+      if (Auth.loggedIn() === false) {
+        next({ name: 'userLogin' })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/login',
