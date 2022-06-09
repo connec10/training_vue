@@ -41,7 +41,7 @@ export default {
         errors.push('説明文は必須です')
       }
 
-      if (errors === []) {
+      if (JSON.stringify(errors) === JSON.stringify([])) {
         params.id = userData.length + 1
         userData.push(params)
         callback(null, params)        

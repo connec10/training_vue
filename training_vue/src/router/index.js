@@ -38,6 +38,33 @@ const routes = [
     path: '*',
     redirect: '/top'
   },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../views/Users.vue')
+  },
+  {
+    path: '/users/:userId',
+    name: 'userDetail',
+    component: () => import('../views/UserDetail.vue')
+  },
+  {
+    path: '/user_create',
+    name: 'userCreate',
+    component: () => import('../views/UserCreate.vue'),
+    beforeEnter: function (to, from, next) {
+      if (Auth.loggedIn() === false) {
+        next({ name: 'userLogin' })
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/login',
+    name: 'userLogin',
+    component: () => import('../views/UserLogin.vue')
+  },
 ]
 
 const router = new VueRouter({
