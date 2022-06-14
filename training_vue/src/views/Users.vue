@@ -32,15 +32,14 @@
     created: function () {
       this.getUsers()
     },
-    watch: { '$route': 'getUsers' },
     methods: {
       getUsers: function () {
         this.isUserDataLoading = true
         Api.getUsers(function (p, users) {
           this.users = users
+          this.isUserDataLoading = false
         }.bind(this))
-        this.isUserDataLoading = false
-      }
+      },
     },
   }
 </script>

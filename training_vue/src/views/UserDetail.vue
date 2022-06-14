@@ -18,7 +18,6 @@
     created: function () {
       this.getUser()
     },
-    watch: { '$route': 'getUser' },
     methods: {
       getUser: function () {
         var userId = this.$route.params.userId

@@ -21,22 +21,22 @@ export default {
     }
   },
   methods: {
-    login: function () {      
+    login: function () {
       this.errors = []
       var email = this.inputEmail
       var pass = this.inputPassword
-      var cb = function (isLoginSuccess) {
-        if (isLoginSuccess) {
-          this.$emit('update-login', true)
-          this.$router.push('/top')
-        } else {
-          this.$emit('update-login', false)
-          this.errors.push('ログインに失敗しました')
-        }
-      }.bind(this)
 
-      Auth.login(email, pass, cb)
+      Auth.login(email, pass, this.cb)
     },
+    cb: function (isLoginSuccess) {
+      if (isLoginSuccess) {
+        this.$emit('update-login', true)
+        this.$router.push('/top')
+      } else {
+        this.$emit('update-login', false)
+        this.errors.push('ログインに失敗しました')
+      }
+    }
   }
 }
 </script>

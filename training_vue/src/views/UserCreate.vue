@@ -36,34 +36,34 @@
     methods: {
       postUser: function () {
         this.isSending = true
-        this.createdUser = {}
-        this.errors = []
+        this.createdUser = null
+        this.errors = null
 
         var user = {
           id: null,
           name: this.inputName,
           description: this.inputDescription
         }
-        var afterPostUser = function (errors, user) {
-          if (errors === null) {
-            this.createdUser = user
-          } else {
-            this.errors = errors
-          }
-          
-          if (JSON.stringify(this.createdUser) !== JSON.stringify({})) {
-            alert(this.messageCreateSuccess)
-            this.moveToUserDetail(this.createdUser.id)
-          }
-          this.isSending = false
-        }.bind(this)
 
-        Api.postUser(user, afterPostUser)
+        Api.postUser(user, this.afterPostUser)
       },
       moveToUserDetail: function (userId) {
         this.$router.push({ name: 'userDetail', params: { userId: userId }})
       },
-    },
+      afterPostUser: function (errors, user) {
+        if (errors === null) {
+          this.createdUser = user
+        } else {
+          this.errors = errors
+        }
+
+        if (this.createdUser !== null) {
+          alert(this.messageCreateSuccess)
+          this.moveToUserDetail(this.createdUser.id)
+        }
+        this.isSending = false
+      }
+    }
   }
 </script>
 
