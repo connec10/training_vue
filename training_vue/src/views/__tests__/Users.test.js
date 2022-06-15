@@ -1,9 +1,11 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, RouterLinkStub } from '@vue/test-utils'
 import Api from 'training_vue/mock/Api.js'
 import Users from '../Users.vue'
 
 const wrapper = shallowMount(Users, {
-  stubs: ['router-link', 'router-view']
+  stubs: {
+    RouterLink: RouterLinkStub
+  }
 })
 
 describe('Users.vue: 読み込み中表示', () => {
@@ -13,16 +15,14 @@ describe('Users.vue: 読み込み中表示', () => {
     wrapper.setData({ isUserDataLoading: true })
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.isUserDataLoading).toBe(true)
       expect(item.isVisible()).toBe(true)
     })
   })
-  
+
   test('isUserDataLoading: falseのときは「読み込み中…」を表示しない', () => {
     wrapper.setData({ isUserDataLoading: false })
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.isUserDataLoading).toBe(false)
       expect(item.isVisible()).toBe(false)
     })
   })
@@ -48,15 +48,32 @@ describe('Users.vue: ユーザー一覧テーブル', () => {
       expect(item.length).toBe(2)
     })
   })
+
+  // test('詳細ページのリンク先が正しく登録されている', () => {
+  //   wrapper.setData({ users: testUsers })
+
+  //   wrapper.vm.$nextTick(() => {
+  //     const item = wrapper.findAllComponents(RouterLinkStub)
+  //     console.log(item.at(0).props().to);
+  //     expect(item.at(0).props().to).toBe('/users/2')
+  //   })
+  // })
 })
 
-describe('Users.vue: mount', () => {
-  test('マウント時にgetUsersがコールされる', () => {
+describe('Users.vue: getUsers関数実行時', () => {
+  test('Api.jsのgetUsers関数が呼び出される ', () => {
     const spy = jest.spyOn(Api, 'getUsers')
-    expect(spy).toHaveBeenCalledTimes(0)
-
-    const wrapper = shallowMount(Users)
-
+    wrapper.vm.getUsers()
     expect(spy).toHaveBeenCalledTimes(1)
   })
 })
+
+// describe('Users.vue: created', () => {
+//   test('getUsersがコールされる', () => {
+//     const spy = jest.spyOn(Api, 'getUsers')
+
+//     const wrapper = shallowMount(Users)
+
+//     expect(spy).toHaveBeenCalledTimes(1)
+//   })
+// })

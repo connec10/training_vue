@@ -73,7 +73,7 @@ describe('UserCreate.vue: postUser関数', () => {
     const spy = jest.spyOn(Api, 'postUser')
 
     wrapper.vm.postUser()
-    
+
     expect(spy).toHaveBeenCalledTimes(1)
   })
 })

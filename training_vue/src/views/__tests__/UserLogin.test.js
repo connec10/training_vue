@@ -1,11 +1,11 @@
-import { shallowMount } from '@vue/test-utils';
-import UserLogin from '../UserLogin.vue';
+import { mount } from '@vue/test-utils'
+import UserLogin from '../UserLogin.vue'
 import Auth from 'training_vue/mock/Auth.js'
 
 let wrapper
 
 beforeEach(() => {
-  wrapper = shallowMount(UserLogin)
+  wrapper = mount(UserLogin)
 })
 
 afterEach(() => {
@@ -23,7 +23,7 @@ describe('UserLogin.vue: ログインボタン', () => {
   })
 })
 
-describe('UserLogin.vue: Login関数実行時', () => {
+describe('UserLogin.vue: login()実行時', () => {
   test('mock/Auth.jsのlogin関数が呼び出される', () => {
     const spy = jest.spyOn(Auth, 'login')
 
@@ -32,16 +32,12 @@ describe('UserLogin.vue: Login関数実行時', () => {
       expect(spy).toHaveBeenCalledTimes(1)
     })
   })
+})
 
+describe('UserLogin.vue: cb()実行時', () => {
   test('update-loginイベントがemitされる', () => {
-    const event = wrapper.emitted('update-login')
-
-    // wrapper.vm.login()
-    wrapper.vm.$emit('update-login')
-
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.emitted('update-login')).toBeTruthy()
-    })
+    wrapper.vm.cb(false)
+    expect(wrapper.emitted('update-login')).toBeTruthy()
   })
 })
 
@@ -52,7 +48,7 @@ describe('UserLogin.vue: エラーメッセージ', () => {
     wrapper.setData({ errors: [testMessage] })
 
     wrapper.vm.$nextTick(() => {
-      const item = wrapper.findAll('div').at(3) //エラーメッセージ表示部
+      const item = wrapper.findAll('div').at(3)
       expect(item.text()).toBe(testMessage)
     })
   })
