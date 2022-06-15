@@ -9,14 +9,13 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper.destroy()
 })
 
 describe('UserLogin.vue: ログインボタン', () => {
   test('ボタンがクリックされたときlogin関数を呼び出す', () => {
     const button = wrapper.find('button')
     const spy = jest.spyOn(wrapper.vm, 'login')
-    expect(spy).not.toBeCalled()
 
     button.trigger('click')
 
@@ -32,16 +31,29 @@ describe('UserLogin.vue: Login関数実行時', () => {
       wrapper.vm.login()
       expect(spy).toHaveBeenCalledTimes(1)
     })
-  });
+  })
 
   test('update-loginイベントがemitされる', () => {
     const event = wrapper.emitted('update-login')
-    
-    wrapper.vm.login()
 
-    console.log(wrapper.emitted());
-    // wrapper.vm.$nextTick(() => {
-    //   expect(wrapper.emitted().updateLogin).toBeTruthy()
-    // })
-  });
-});
+    // wrapper.vm.login()
+    wrapper.vm.$emit('update-login')
+
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.emitted('update-login')).toBeTruthy()
+    })
+  })
+})
+
+describe('UserLogin.vue: エラーメッセージ', () => {
+  test('エラーメッセージが追加されたときに正しく表示される ', () => {
+    const testMessage = 'test error message'
+
+    wrapper.setData({ errors: [testMessage] })
+
+    wrapper.vm.$nextTick(() => {
+      const item = wrapper.findAll('div').at(3) //エラーメッセージ表示部
+      expect(item.text()).toBe(testMessage)
+    })
+  })
+})

@@ -16,7 +16,6 @@ export default {
     return {
       inputEmail: '',
       inputPassword: '',
-      loginError: true,
       errors: [],
     }
   },
