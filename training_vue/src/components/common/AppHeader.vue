@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Auth from '/mock/Auth.js'
+import Auth from '../../../mock/Auth.js'
 
 export default {
   props: {
