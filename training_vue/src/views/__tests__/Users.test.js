@@ -2,7 +2,6 @@ import { shallowMount, RouterLinkStub } from '@vue/test-utils'
 import Api from 'training_vue/mock/Api.js'
 import Users from '../Users.vue'
 
-const spyGetUsers = jest.spyOn(Users.methods, 'getUsers')
 const wrapper = shallowMount(Users, {
   stubs: {
     RouterLink: RouterLinkStub
@@ -62,14 +61,8 @@ describe('Users.vue: ユーザー一覧テーブル', () => {
 
 describe('Users.vue: getUsers関数実行時', () => {
   test('Api.jsのgetUsers関数が呼び出される ', () => {
-    const spy = jest.spyOn(Api, 'getUsers')
+    const spy = jest.spyOn(Api, 'getUsers').mockImplementation()
     wrapper.vm.getUsers()
-    expect(spy).toHaveBeenCalledTimes(1)
-  })
-})
-
-describe('Users.vue: created', () => {
-  test('getUsersがコールされる', () => {
-    // expect(spyGetUsers).toHaveBeenCalledTimes(1)
+    expect(spy).toBeCalled()
   })
 })

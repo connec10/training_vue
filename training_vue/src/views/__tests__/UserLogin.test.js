@@ -15,7 +15,7 @@ afterEach(() => {
 describe('UserLogin.vue: ログインボタン', () => {
   test('ボタンがクリックされたときlogin関数を呼び出す', () => {
     const button = wrapper.find('button')
-    const spy = jest.spyOn(wrapper.vm, 'login')
+    const spy = jest.spyOn(wrapper.vm, 'login').mockImplementation()
 
     button.trigger('click')
 
@@ -25,12 +25,11 @@ describe('UserLogin.vue: ログインボタン', () => {
 
 describe('UserLogin.vue: login()実行時', () => {
   test('mock/Auth.jsのlogin関数が呼び出される', () => {
-    const spy = jest.spyOn(Auth, 'login')
+    const spy = jest.spyOn(Auth, 'login').mockImplementation()
 
-    wrapper.vm.$nextTick(() => {
-      wrapper.vm.login()
-      expect(spy).toHaveBeenCalledTimes(1)
-    })
+    wrapper.vm.login()
+
+    expect(spy).toBeCalled()
   })
 })
 
